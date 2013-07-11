@@ -1,0 +1,51 @@
+﻿Imports System.Web.Http
+Imports System.Web.Http.SelfHost
+
+Public Class Form1
+    Dim config As HttpSelfHostConfiguration
+    Dim httpserver As HttpSelfHostServer
+
+    Sub hostinit()
+        config = New HttpSelfHostConfiguration("http://localhost:32767")
+
+        config.Routes.MapHttpRoute("img", "img/{name}", New With {.controller = "Img", .action = "g"})
+        config.Routes.MapHttpRoute("css", "css/{name}", New With {.controller = "Css", .action = "g"})
+        config.Routes.MapHttpRoute("js", "js/{name}", New With {.controller = "Js", .action = "g"})
+        config.Routes.MapHttpRoute("API", "{controller}/{action}/{id}", New With {.id = RouteParameter.Optional}) ' vs2010 just can not IntelliSense.... 
+        config.Routes.MapHttpRoute("default", "", New With {.controller = "Home", .action = "g"})
+
+        httpserver = New HttpSelfHostServer(config)
+
+        'http://blog2.darkthread.net/post-2013-06-04-self-host-web-api.aspx
+        httpserver.OpenAsync.Wait()
+
+        'netsh http add urlacl url=http://+:port_number/ user=machine\username
+
+        WebBrowser1.Navigate("http://localhost:32767")
+    End Sub
+
+    Public Sub New()
+
+        ' 此為設計工具所需的呼叫。
+        InitializeComponent()
+
+        ' 在 InitializeComponent() 呼叫之後加入任何初始設定。
+        Me.Width = 600
+        Me.Height = 400
+        hostinit()
+
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        httpserver.CloseAsync.Wait()
+        MyBase.Finalize()
+    End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        hostinit()
+    End Sub
+
+    Private Sub WebBrowser1_DocumentTitleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebBrowser1.DocumentTitleChanged
+        Me.Text = WebBrowser1.DocumentTitle
+    End Sub
+End Class
