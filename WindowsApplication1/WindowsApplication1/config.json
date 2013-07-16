@@ -1,0 +1,12 @@
+{
+  "window.w":800,
+  "window.h":400,
+  "static_support":{
+    ".txt":"text/text",
+    ".log":"text/text",
+    ".js":"text/javascript",
+    ".png":"image/png",
+    ".jpg":"image/jpg",
+    ".gif":"image/gif"
+  }
+}

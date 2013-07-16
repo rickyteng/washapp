@@ -8,6 +8,7 @@ Public Class Form1
     Sub hostinit()
         config = New HttpSelfHostConfiguration("http://localhost:32767")
 
+        config.Routes.MapHttpRoute("static", "static/{*pathInfo}", New With {.controller = "Static", .action = "g"})
         config.Routes.MapHttpRoute("img", "img/{name}", New With {.controller = "Img", .action = "g"})
         config.Routes.MapHttpRoute("css", "css/{name}", New With {.controller = "Css", .action = "g"})
         config.Routes.MapHttpRoute("js", "js/{name}", New With {.controller = "Js", .action = "g"})
@@ -30,8 +31,13 @@ Public Class Form1
         InitializeComponent()
 
         ' 在 InitializeComponent() 呼叫之後加入任何初始設定。
-        Me.Width = 600
-        Me.Height = 400
+        Dim configjsonstring As String
+        Using x As New System.IO.StreamReader("config.json")
+            configjsonstring = x.ReadToEnd()
+        End Using
+        Dim configjson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(configjsonstring)
+        Me.Width = configjson("window.w")
+        Me.Height = configjson("window.h")
         hostinit()
 
     End Sub
