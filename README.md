@@ -12,3 +12,8 @@ Javascript files should be put in js/ folder.
 Images files(.jpg, .png, .gif) should be put in img/ folder.
 
 Have fun!
+
+
+Change
+=======
+1. Add StaticController to server static file at any folder
