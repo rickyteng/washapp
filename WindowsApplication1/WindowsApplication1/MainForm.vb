@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Http
 Imports System.Web.Http.SelfHost
 
-Public Class Form1
+Public Class MainForm
     Dim config As HttpSelfHostConfiguration
     Dim httpserver As HttpSelfHostServer
 
