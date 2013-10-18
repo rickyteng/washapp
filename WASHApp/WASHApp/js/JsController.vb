@@ -4,7 +4,7 @@ Imports System.Net.Http.Headers
 
 Public Class JsController
     Inherits ApiController
-    <HttpGet()> Public Function g(ByVal name As String) As HttpResponseMessage
+    <HttpGet(), HttpPost()> Public Function g(ByVal name As String) As HttpResponseMessage
         Dim content As New StreamContent(New System.IO.FileStream(Request.RequestUri.LocalPath.Substring(1), IO.FileMode.Open))
         content.Headers.ContentType = New MediaTypeHeaderValue("text/javascript")
         Dim response = New HttpResponseMessage() With {.Content = content}

@@ -5,7 +5,7 @@ Imports System.Net.Http.Headers
 Public Class ImgController
     Inherits ApiController
     Dim accept_type As Dictionary(Of String, String) = New Dictionary(Of String, String) From {{".jpg", "jpg"}, {".png", "png"}, {".gif", "gif"}}
-    <HttpGet()> Public Function g(ByVal name As String) As HttpResponseMessage
+    <HttpGet(), HttpPost()> Public Function g(ByVal name As String) As HttpResponseMessage
         Dim content As New StreamContent(New System.IO.FileStream(Request.RequestUri.LocalPath.Substring(1), IO.FileMode.Open))
         Dim ext As String = System.IO.Path.GetExtension(Request.RequestUri.LocalPath).ToLower()
         If accept_type.ContainsKey(ext) Then

@@ -8,6 +8,7 @@ Public Class MainForm
     Sub hostinit()
         config = New HttpSelfHostConfiguration("http://localhost:32767")
 
+        config.Routes.MapHttpRoute("plugins", "plugins/{*pathInfo}", New With {.controller = "Plugins", .action = "g"})
         config.Routes.MapHttpRoute("static", "static/{*pathInfo}", New With {.controller = "Static", .action = "g"})
         config.Routes.MapHttpRoute("img", "img/{name}", New With {.controller = "Img", .action = "g"})
         config.Routes.MapHttpRoute("css", "css/{name}", New With {.controller = "Css", .action = "g"})

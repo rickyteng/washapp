@@ -5,7 +5,7 @@ Imports System.Net.Http.Headers
 Public Class StaticController
     Inherits ApiController
     Dim accept_type As Dictionary(Of String, String) ' = New Dictionary(Of String, String) From {{".txt", "text/text"}}
-    <HttpGet()> Public Function g(ByVal pathInfo As String) As HttpResponseMessage
+    <HttpGet(), HttpPost()> Public Function g(ByVal pathInfo As String) As HttpResponseMessage
         Dim configjsonstring As String
         Using x As New System.IO.StreamReader("config.json")
             configjsonstring = x.ReadToEnd()
@@ -14,11 +14,17 @@ Public Class StaticController
         accept_type = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, String))(configjson("static_support").ToString())
         Dim ext As String = System.IO.Path.GetExtension(pathInfo)
         If accept_type.ContainsKey(ext) Then
+            If pathInfo.StartsWith("p/") Then
+                pathInfo = "static/" & ".." & pathInfo.Remove(0, 1)
+            Else
+                pathInfo = "static/" & pathInfo
+            End If
+
             If System.IO.File.Exists(pathInfo) Then
                 Dim content As New StreamContent(New System.IO.FileStream(pathInfo, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite, 1024, True))
                 content.Headers.ContentType = New MediaTypeHeaderValue(accept_type(ext))
                 Dim response = New HttpResponseMessage() With {.Content = content}
-                'response.Headers.CacheControl = New CacheControlHeaderValue() With {.MaxAge = New TimeSpan(1, 0, 0)}
+                response.Headers.CacheControl = New CacheControlHeaderValue() With {.MaxAge = New TimeSpan(0, 0, 10)}
                 Return response
             Else
                 Dim response = New HttpResponseMessage() With {.StatusCode = Net.HttpStatusCode.NotFound}
