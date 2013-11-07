@@ -10,7 +10,6 @@
     ".gif":"image/gif"
   },
   "plugins":{
-    "d_gen_queuelist2.py":"1",
-    "run_seq.py":"0"
+    "plugins_test.py":"1"
   }
 }
