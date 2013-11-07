@@ -1,3 +1,3 @@
 body { background-color: #555555 }
 .imgstyle {border:2px solid silver;width:550px}
-#btnTest {background-color: #561217;color:#bbb;border-style:none;}
+button {background-color: #561217;color:#bbb;border-style:none;}
