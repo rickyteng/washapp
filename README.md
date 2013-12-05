@@ -19,12 +19,13 @@ Change
 =======
 1. Add StaticController to serve static file at any folder.
 2. Add PluginsController to serve plug-in functionality.
+3. Server read port setting from config.json.
 
 
 Introduction
 =======
 #### Http Port
-WASHApp will serve http function at port 32767 by default that is hard-coded.
+WASHApp will serve http function at port 32767 by default or read setting from config.json.
 
 #### Configuration
 config.json give simplest configuration that can define window width and height, static file type, and plugin function.
@@ -32,6 +33,7 @@ config.json give simplest configuration that can define window width and height,
     {
       "window.w":800,
       "window.h":400,
+      "port":32767,
       "static_support":{
         ".txt":"text/text",
         ".log":"text/text",

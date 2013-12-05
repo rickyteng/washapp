@@ -5,8 +5,8 @@ Public Class MainForm
     Dim config As HttpSelfHostConfiguration
     Dim httpserver As HttpSelfHostServer
 
-    Sub hostinit()
-        config = New HttpSelfHostConfiguration("http://localhost:32767")
+    Sub hostinit(ByVal port As Integer)
+        config = New HttpSelfHostConfiguration("http://localhost:" + port.ToString)
 
         config.Routes.MapHttpRoute("plugins", "plugins/{*pathInfo}", New With {.controller = "Plugins", .action = "g"})
         config.Routes.MapHttpRoute("static", "static/{*pathInfo}", New With {.controller = "Static", .action = "g"})
@@ -23,7 +23,7 @@ Public Class MainForm
 
         'netsh http add urlacl url=http://+:port_number/ user=machine\username
 
-        WebBrowser1.Navigate("http://localhost:32767")
+        WebBrowser1.Navigate("http://localhost:" + port.ToString)
     End Sub
 
     Public Sub New()
@@ -39,17 +39,19 @@ Public Class MainForm
         Dim configjson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(configjsonstring)
         Me.Width = configjson("window.w")
         Me.Height = configjson("window.h")
-        hostinit()
+        If Not configjson("port") Is Nothing Then
+            Dim port As Integer = configjson("port")
+            hostinit(port)
+        Else
+            hostinit(32767)
+        End If
+        
 
     End Sub
 
     Protected Overrides Sub Finalize()
         httpserver.CloseAsync.Wait()
         MyBase.Finalize()
-    End Sub
-
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        hostinit()
     End Sub
 
     Private Sub WebBrowser1_DocumentTitleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebBrowser1.DocumentTitleChanged

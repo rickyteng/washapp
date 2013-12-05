@@ -1,6 +1,7 @@
 {
   "window.w":800,
   "window.h":400,
+  "port":33220,
   "static_support":{
     ".txt":"text/text",
     ".log":"text/text",
