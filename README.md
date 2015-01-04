@@ -32,7 +32,7 @@ If you run under win7 or win server 2008, following command need to be executed 
 
 opened.
 
-  netsh http add urlacl url=http://+:32767/ user=machine\username
+    netsh http add urlacl url=http://+:32767/ user=machine\username
 
 #### Configuration
 config.json give simplest configuration that can define window width and height, static file type, and plugin function.
